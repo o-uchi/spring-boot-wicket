@@ -1,0 +1,43 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven { url "http://repo.spring.io/snapshot" }
+        maven { url "http://repo.spring.io/milestone" }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.0.BUILD-SNAPSHOT")
+        classpath 'org.springframework:springloaded:1.2.0.RELEASE'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'spring-boot'
+apply plugin: 'idea'
+
+idea {
+    module {
+        inheritOutputDirs = false
+        outputDir = file("$buildDir/classes/main/")
+    }
+}
+
+[compileJava, compileTestJava].each {
+    it.sourceCompatibility = 1.8
+    it.targetCompatibility = 1.8
+    it.options.encoding = 'UTF-8'
+}
+
+repositories {
+    jcenter()
+    maven { url "http://repo.spring.io/snapshot" }
+    maven { url "http://repo.spring.io/milestone" }
+}
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web") {
+        exclude module: "spring-boot-starter-tomcat"
+        exclude module: "spring-webmvc"
+    }
+    compile "org.apache.wicket:wicket-spring:6.+"
+    compile "org.eclipse.jetty:jetty-webapp:9.+"
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+}
