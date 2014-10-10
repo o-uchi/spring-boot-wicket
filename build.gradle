@@ -1,5 +1,6 @@
 buildscript {
     repositories {
+        mavenCentral()
         jcenter()
         maven { url "http://repo.spring.io/snapshot" }
         maven { url "http://repo.spring.io/milestone" }
@@ -27,17 +28,24 @@ idea {
     it.options.encoding = 'UTF-8'
 }
 
+processResources.destinationDir = compileJava.destinationDir
+sourceSets.main.resources {
+    srcDirs 'src/main/java' // Add *.html
+}
+
 repositories {
+    mavenCentral()
     jcenter()
     maven { url "http://repo.spring.io/snapshot" }
     maven { url "http://repo.spring.io/milestone" }
 }
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web") {
-        exclude module: "spring-boot-starter-tomcat"
-        exclude module: "spring-webmvc"
-    }
-    compile "org.apache.wicket:wicket-spring:6.+"
-    compile "org.eclipse.jetty:jetty-webapp:9.+"
+    compile(
+        "org.springframework.boot:spring-boot-starter",
+        "org.springframework:spring-web",
+        "org.apache.wicket:wicket-spring:6.+",
+        "org.eclipse.jetty:jetty-webapp:9.2.+",
+    )
+    
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }
